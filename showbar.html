@@ -1,0 +1,23 @@
+<style>
+	  #Div{display: table-cell;vertical-align: middle; text-align: center; width: 20em; height: 6em; border: 3px solid black; border-radius: 4px 4px 4px 4px;}
+      .Divshow{  opacity: 1; transition: opacity 1s linear;}
+      .Divhidden{ opacity: 0; transition: visibility 0s 0s, opacity 0s linear;}
+</style>
+<script>
+  function manageDiv(msg, time){
+    if (msg == ""){
+      msg = "default";
+    }
+    var div = document.getElementById("Div");
+          div.innerHTML = msg;
+          div.classList.add("Divshow");
+          div.classList.remove("Divhidden");
+          
+          setTimeout(function(){            
+            div.classList.remove("Divshow");
+            div.classList.add("Divhidden");
+            }, 5000);   
+  }
+	  
+</script>
+<div id="Div" class="Divhidden"></div>

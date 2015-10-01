@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      var socketio = io.connect("192.168.0.16:8080");
+      socketio.on("message_to_client", function(data) {
+        document.getElementById("chatlog").innerHTML = ("<hr/>" + data['message'] + document.getElementById("chatlog").innerHTML);
+      });
+      function sendMessage() {
+        var msg = document.getElementById("message_input").value;
+        if(msg!= ""){
+          socketio.emit("message_to_server", { message : msg});
+          document.getElementById("message_input").value = "";
+          manageDiv(msg, 4000);
+        }       
+      }
+      document.onkeydown = function(event) {
+        if(event.keyCode == 13){
+          sendMessage(); 
+        }
+      }
+    </script>
+    
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      #message_input { border: 1px solid black; padding: 10px; width: 90%; margin-right: .5%; border-radius: 3px 3px 3px 3px}
+      #send { width: 9%; background: blue; border: none; padding: 10px; color: white; font-weight: bold; border-radius: 3px 3px 3px 3px}
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }    
+   </style>
+  </head>
+  <body>
+    
+    <div id="chatlog"> </div>
+    <!--<ul id="messages"></ul>-->
+    <input type="text" id="message_input" autocomplete="on" placeholder = "Type your message"/>
+    <button id="send" onclick="sendMessage()">send</button>    
+    <style>
+	  #Div{ background-color: cornflowerblue; display: table-cell;vertical-align: middle; text-align: center; width: 20em; height: 6em; border: 3px solid cornflowerblue; border-radius: 5px 5px 5px 5px;}
+      .Divshow{opacity: 1; transition: opacity 1s linear;}
+      .Divhidden{ opacity: 0; transition: visibility 0s 0s, opacity 0s linear;}
+</style>
+<script>
+  function manageDiv(msg, time){
+    if (msg == ""){
+      msg = "default";
+    }
+    var div = document.getElementById("Div");
+          div.innerHTML = msg;
+          div.classList.add("Divshow");
+          div.classList.remove("Divhidden");
+          
+          setTimeout(function(){            
+            div.classList.remove("Divshow");
+            div.classList.add("Divhidden");
+            }, time);   
+  }
+	  
+</script>
+<div  style="border: 1px solid black; width: 100%; vertical-align: center"><div id="Div" class="Divhidden" >12345</div></div>
+
+  </body>
+</html>
