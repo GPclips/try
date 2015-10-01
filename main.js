@@ -1,5 +1,6 @@
 // HTTP request to a web server
-var http = require('http');
+var http = require('http'),
+conf = require('./package.json');
 
 //Inhalte Laden, wie html seiten
 fs = require('fs');
